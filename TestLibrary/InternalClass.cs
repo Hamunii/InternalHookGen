@@ -20,6 +20,8 @@ public class SecondClass
 
     private int Method()
     {
+        _field = 69;
+        Console.WriteLine(_field);
         return 0;
     }
 }

@@ -9,7 +9,7 @@ using AsmResolver.IO;
 using AsmResolver.PE;
 using AsmResolver.PE.DotNet.Builder;
 
-namespace BepInEx.AssemblyPublicizer;
+namespace InternalHookGen;
 
 internal static class FatalAsmResolver
 {

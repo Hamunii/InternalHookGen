@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Build.Framework;
 
-namespace BepInEx.AssemblyPublicizer.MSBuild;
+namespace InternalHookGen.MSBuild;
 
 internal static class Extensions
 {

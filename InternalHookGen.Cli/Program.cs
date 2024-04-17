@@ -1,6 +1,6 @@
 ﻿using System.CommandLine.Builder;
 using System.CommandLine.Parsing;
-using BepInEx.AssemblyPublicizer.Cli;
+using InternalHookGen.Cli;
 using Serilog;
 
 Log.Logger = new LoggerConfiguration()

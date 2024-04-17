@@ -7,7 +7,7 @@ using AsmResolver.DotNet.Code.Cil;
 using AsmResolver.PE.DotNet.Cil;
 using AsmResolver.PE.DotNet.Metadata.Tables.Rows;
 
-namespace BepInEx.AssemblyPublicizer;
+namespace InternalHookGen;
 
 public static class AssemblyPublicizer
 {
@@ -17,11 +17,11 @@ public static class AssemblyPublicizer
         var module = assembly.ManifestModule ?? throw new NullReferenceException();
         module.MetadataResolver = new DefaultMetadataResolver(NoopAssemblyResolver.Instance);
 
-        Publicize(assembly, options);
+        PublicizeAssembly(assembly, options);
         module.FatalWrite(outputPath);
     }
 
-    public static AssemblyDefinition Publicize(AssemblyDefinition assembly, AssemblyPublicizerOptions? options = null)
+    public static AssemblyDefinition PublicizeAssembly(AssemblyDefinition assembly, AssemblyPublicizerOptions? options = null)
     {
         options ??= new AssemblyPublicizerOptions();
 
@@ -34,13 +34,13 @@ public static class AssemblyPublicizer
             if (attribute != null && typeDefinition == attribute.Type)
                 continue;
 
-            Publicize(typeDefinition, attribute, options);
+            PublicizeType(typeDefinition, attribute, options);
         }
 
         return assembly;
     }
 
-    private static void Publicize(TypeDefinition typeDefinition, OriginalAttributesAttribute? attribute, AssemblyPublicizerOptions options)
+    private static void PublicizeType(TypeDefinition typeDefinition, OriginalAttributesAttribute? attribute, AssemblyPublicizerOptions options)
     {
         if (options.Strip && !typeDefinition.IsEnum && !typeDefinition.IsInterface)
         {
@@ -59,7 +59,7 @@ public static class AssemblyPublicizer
         if (!options.PublicizeCompilerGenerated && typeDefinition.IsCompilerGenerated())
             return;
 
-        if (options.HasTarget(PublicizeTarget.Types) && (!typeDefinition.IsNested && !typeDefinition.IsPublic || typeDefinition.IsNested && !typeDefinition.IsNestedPublic))
+        if (options.HasTarget(HookGenTarget.Types) && (!typeDefinition.IsNested && !typeDefinition.IsPublic || typeDefinition.IsNested && !typeDefinition.IsNestedPublic))
         {
             if (attribute != null)
                 typeDefinition.CustomAttributes.Add(attribute.ToCustomAttribute(typeDefinition.Attributes & TypeAttributes.VisibilityMask));
@@ -68,11 +68,11 @@ public static class AssemblyPublicizer
             typeDefinition.Attributes |= typeDefinition.IsNested ? TypeAttributes.NestedPublic : TypeAttributes.Public;
         }
 
-        if (options.HasTarget(PublicizeTarget.Methods))
+        if (options.HasTarget(HookGenTarget.Methods))
         {
             foreach (var methodDefinition in typeDefinition.Methods)
             {
-                Publicize(methodDefinition, attribute, options);
+                PublicizeMethod(methodDefinition, attribute, options);
             }
 
             // Special case for accessors generated from auto properties, publicize them regardless of PublicizeCompilerGenerated
@@ -80,13 +80,13 @@ public static class AssemblyPublicizer
             {
                 foreach (var propertyDefinition in typeDefinition.Properties)
                 {
-                    if (propertyDefinition.GetMethod is { } getMethod) Publicize(getMethod, attribute, options, true);
-                    if (propertyDefinition.SetMethod is { } setMethod) Publicize(setMethod, attribute, options, true);
+                    if (propertyDefinition.GetMethod is { } getMethod) PublicizeMethod(getMethod, attribute, options, true);
+                    if (propertyDefinition.SetMethod is { } setMethod) PublicizeMethod(setMethod, attribute, options, true);
                 }
             }
         }
 
-        if (options.HasTarget(PublicizeTarget.Fields))
+        if (options.HasTarget(HookGenTarget.Fields))
         {
             var eventNames = new HashSet<Utf8String?>(typeDefinition.Events.Select(e => e.Name));
             foreach (var fieldDefinition in typeDefinition.Fields)
@@ -113,7 +113,7 @@ public static class AssemblyPublicizer
         }
     }
 
-    private static void Publicize(MethodDefinition methodDefinition, OriginalAttributesAttribute? attribute, AssemblyPublicizerOptions options, bool ignoreCompilerGeneratedCheck = false)
+    private static void PublicizeMethod(MethodDefinition methodDefinition, OriginalAttributesAttribute? attribute, AssemblyPublicizerOptions options, bool ignoreCompilerGeneratedCheck = false)
     {
         if (methodDefinition.IsCompilerControlled)
             return;

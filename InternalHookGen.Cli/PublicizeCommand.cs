@@ -3,7 +3,7 @@ using System.CommandLine.NamingConventionBinder;
 using System.Diagnostics;
 using Serilog;
 
-namespace BepInEx.AssemblyPublicizer.Cli;
+namespace InternalHookGen.Cli;
 
 public sealed class PublicizeCommand : RootCommand
 {
@@ -14,7 +14,7 @@ public sealed class PublicizeCommand : RootCommand
 
         Add(new Argument<FileSystemInfo[]>("input") { Arity = ArgumentArity.OneOrMore }.ExistingOnly());
         Add(new Option<string?>(new[] { "--output", "-o" }).LegalFilePathsOnly());
-        Add(new Option<PublicizeTarget>("--target", () => PublicizeTarget.All, "Targets for publicizing"));
+        Add(new Option<HookGenTarget>("--target", () => HookGenTarget.All, "Targets for publicizing"));
         Add(new Option<bool>("--publicize-compiler-generated", "Publicize compiler generated types and members"));
         Add(new Option<bool>("--dont-add-attribute", "Skip injecting OriginalAttributes attribute"));
         Add(new Option<bool>("--strip", "Strips all method bodies by setting them to `throw null;`"));
@@ -25,7 +25,7 @@ public sealed class PublicizeCommand : RootCommand
         Handler = HandlerDescriptor.FromDelegate(Handle).GetCommandHandler();
     }
 
-    private static void Handle(FileSystemInfo[] input, string? output, PublicizeTarget target, bool publicizeCompilerGenerated, bool dontAddAttribute, bool strip, bool stripOnly, bool overwrite, bool disableParallel)
+    private static void Handle(FileSystemInfo[] input, string? output, HookGenTarget target, bool publicizeCompilerGenerated, bool dontAddAttribute, bool strip, bool stripOnly, bool overwrite, bool disableParallel)
     {
         var assemblies = new List<FileInfo>();
 
@@ -46,7 +46,7 @@ public sealed class PublicizeCommand : RootCommand
 
         var options = new AssemblyPublicizerOptions
         {
-            Target = stripOnly ? PublicizeTarget.None : target,
+            Target = stripOnly ? HookGenTarget.None : target,
             PublicizeCompilerGenerated = publicizeCompilerGenerated,
             IncludeOriginalAttributesAttribute = false,
             Strip = stripOnly || strip,

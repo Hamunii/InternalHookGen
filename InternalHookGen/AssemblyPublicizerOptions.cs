@@ -1,23 +1,23 @@
 using System;
 
-namespace BepInEx.AssemblyPublicizer;
+namespace InternalHookGen;
 
 public class AssemblyPublicizerOptions
 {
-    public PublicizeTarget Target { get; set; } = PublicizeTarget.All;
+    public HookGenTarget Target { get; set; } = HookGenTarget.All;
     public bool PublicizeCompilerGenerated { get; set; } = false;
     public bool IncludeOriginalAttributesAttribute { get; set; } = true;
 
     public bool Strip { get; set; } = false;
 
-    internal bool HasTarget(PublicizeTarget target)
+    internal bool HasTarget(HookGenTarget target)
     {
         return (Target & target) != 0;
     }
 }
 
 [Flags]
-public enum PublicizeTarget
+public enum HookGenTarget
 {
     All = Types | Methods | Fields,
     None = 0,

@@ -3,8 +3,9 @@
         <TargetFrameworks>netstandard2.1;net472</TargetFrameworks>
         <LangVersion>latest</LangVersion>
         <DebugType>embedded</DebugType>
+        <PathMap>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))=./</PathMap>
 
-        <Description>MSBuild integration for BepInEx.AssemblyPublicizer</Description>
+        <Description>MonoMod's HookGen in MSBuild</Description>
 
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <DevelopmentDependency>true</DevelopmentDependency>
@@ -15,7 +16,8 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.*"/>
-        <ProjectReference Include="..\BepInEx.AssemblyPublicizer\BepInEx.AssemblyPublicizer.csproj"/>
+        <ProjectReference Include="..\InternalHookGen\InternalHookGen.csproj"/>
+        <PackageReference Include="MonoMod.RuntimeDetour.HookGen" Version="22.*" />
 
         <PackageReference Include="PolySharp" Version="1.13.1" PrivateAssets="all"/>
     </ItemGroup>
@@ -26,10 +28,10 @@
         <Compile Remove="IgnoresAccessChecksToAttribute.cs"/>
         <Content Include="IgnoresAccessChecksToAttribute.cs" Pack="true" PackagePath="contentFiles/cs/any" BuildAction="Compile"/>
     </ItemGroup>
-
+    
     <Target Name="PackTaskDependencies" BeforeTargets="GenerateNuspec">
         <ItemGroup>
-            <_PackageFiles Include="bin\$(Configuration)\*\BepInEx.AssemblyPublicizer.dll;bin\$(Configuration)\*\AsmResolver*.dll">
+            <_PackageFiles Include="bin\$(Configuration)\*\InternalHookGen.dll;bin\$(Configuration)\*\AsmResolver*.dll">
                 <PackagePath>lib%(RecursiveDir)</PackagePath>
                 <Visible>false</Visible>
                 <BuildAction>Content</BuildAction>

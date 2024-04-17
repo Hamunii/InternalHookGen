@@ -1,6 +1,6 @@
 using AsmResolver.DotNet;
 
-namespace BepInEx.AssemblyPublicizer;
+namespace InternalHookGen;
 
 internal class NoopAssemblyResolver : IAssemblyResolver
 {

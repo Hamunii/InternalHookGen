@@ -6,19 +6,19 @@ using AsmResolver.DotNet.Signatures.Types;
 using AsmResolver.PE.DotNet.Cil;
 using AsmResolver.PE.DotNet.Metadata.Tables.Rows;
 
-namespace BepInEx.AssemblyPublicizer;
+namespace InternalHookGen;
 
 internal class OriginalAttributesAttribute
 {
-    private static Dictionary<PublicizeTarget, string> _typeNames = new()
+    private static Dictionary<HookGenTarget, string> _typeNames = new()
     {
-        [PublicizeTarget.Types] = "TypeAttributes",
-        [PublicizeTarget.Methods] = "MethodAttributes",
-        [PublicizeTarget.Fields] = "FieldAttributes",
+        [HookGenTarget.Types] = "TypeAttributes",
+        [HookGenTarget.Methods] = "MethodAttributes",
+        [HookGenTarget.Fields] = "FieldAttributes",
     };
 
-    private Dictionary<PublicizeTarget, TypeSignature> _attributesTypes = new();
-    private Dictionary<PublicizeTarget, MethodDefinition> _constructors = new();
+    private Dictionary<HookGenTarget, TypeSignature> _attributesTypes = new();
+    private Dictionary<HookGenTarget, MethodDefinition> _constructors = new();
 
     public TypeDefinition Type { get; }
 
@@ -29,7 +29,7 @@ internal class OriginalAttributesAttribute
         var baseConstructorReference = attributeReference.CreateMemberReference(".ctor", MethodSignature.CreateInstance(module.CorLibTypeFactory.Void)).ImportWith(module.DefaultImporter);
 
         Type = new TypeDefinition(
-            "BepInEx.AssemblyPublicizer", "OriginalAttributesAttribute",
+            "InternalHookGen", "OriginalAttributesAttribute",
             TypeAttributes.NotPublic | TypeAttributes.Sealed,
             attributeReference
         );
@@ -54,7 +54,7 @@ internal class OriginalAttributesAttribute
         }
     }
 
-    private CustomAttribute ToCustomAttribute(PublicizeTarget target, int value)
+    private CustomAttribute ToCustomAttribute(HookGenTarget target, int value)
     {
         return new CustomAttribute(
             _constructors[target],
@@ -62,7 +62,7 @@ internal class OriginalAttributesAttribute
         );
     }
 
-    public CustomAttribute ToCustomAttribute(TypeAttributes attributes) => ToCustomAttribute(PublicizeTarget.Types, (int)attributes);
-    public CustomAttribute ToCustomAttribute(MethodAttributes attributes) => ToCustomAttribute(PublicizeTarget.Methods, (int)attributes);
-    public CustomAttribute ToCustomAttribute(FieldAttributes attributes) => ToCustomAttribute(PublicizeTarget.Fields, (int)attributes);
+    public CustomAttribute ToCustomAttribute(TypeAttributes attributes) => ToCustomAttribute(HookGenTarget.Types, (int)attributes);
+    public CustomAttribute ToCustomAttribute(MethodAttributes attributes) => ToCustomAttribute(HookGenTarget.Methods, (int)attributes);
+    public CustomAttribute ToCustomAttribute(FieldAttributes attributes) => ToCustomAttribute(HookGenTarget.Fields, (int)attributes);
 }

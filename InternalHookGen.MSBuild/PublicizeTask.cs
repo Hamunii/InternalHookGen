@@ -8,9 +8,9 @@ using System.Text;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 
-namespace BepInEx.AssemblyPublicizer.MSBuild;
+namespace InternalHookGen.MSBuild;
 
-public class PublicizeTask : Task
+public class HookGenTask : Task
 {
     [Required]
     public string IntermediateOutputPath { get; set; }
@@ -25,7 +25,7 @@ public class PublicizeTask : Task
     public ITaskItem[] PackageReference { get; set; }
 
     [Required]
-    public ITaskItem[] Publicize { get; set; }
+    public ITaskItem[] HookGen { get; set; }
 
     [Output]
     public ITaskItem[] RemovedReferences { get; private set; }
@@ -35,11 +35,11 @@ public class PublicizeTask : Task
 
     public override bool Execute()
     {
-        var outputDirectory = Path.Combine(IntermediateOutputPath, "publicized");
+        var outputDirectory = Path.Combine(IntermediateOutputPath, "MMHOOK");
         Directory.CreateDirectory(outputDirectory);
 
-        var packagesToPublicize = PackageReference.Where(x => x.GetBoolMetadata("Publicize")).ToDictionary(x => x.ItemSpec);
-        var assemblyNamesToPublicize = Publicize.ToDictionary(x => x.ItemSpec);
+        var packagesToPublicize = PackageReference.Where(x => x.GetBoolMetadata("HookGen")).ToDictionary(x => x.ItemSpec);
+        var assemblyNamesToPublicize = HookGen.ToDictionary(x => x.ItemSpec);
 
         var removedReferences = new List<ITaskItem>();
         var publicizedReferences = new List<ITaskItem>();
@@ -50,7 +50,7 @@ public class PublicizeTask : Task
 
             ITaskItem optionsHolder;
 
-            if (taskItem.GetBoolMetadata("Publicize"))
+            if (taskItem.GetBoolMetadata("HookGen"))
             {
                 optionsHolder = taskItem;
             }
@@ -67,15 +67,15 @@ public class PublicizeTask : Task
 
             var options = new AssemblyPublicizerOptions();
 
-            if (optionsHolder.TryGetMetadata("PublicizeTarget", out var rawTarget))
+            if (optionsHolder.TryGetMetadata("HookGenTarget", out var rawTarget))
             {
-                if (Enum.TryParse<PublicizeTarget>(rawTarget, true, out var parsedTarget))
+                if (Enum.TryParse<HookGenTarget>(rawTarget, true, out var parsedTarget))
                 {
                     options.Target = parsedTarget;
                 }
                 else
                 {
-                    throw new FormatException($"String '{rawTarget}' was not recognized as a valid PublicizeTarget.");
+                    throw new FormatException($"String '{rawTarget}' was not recognized as a valid HookGenTarget.");
                 }
             }
 
@@ -97,15 +97,15 @@ public class PublicizeTask : Task
             var assemblyPath = taskItem.GetMetadata("FullPath");
             var hash = ComputeHash(File.ReadAllBytes(assemblyPath), options);
 
-            var publicizedAssemblyPath = Path.Combine(outputDirectory, Path.GetFileName(assemblyPath));
+            var publicizedAssemblyPath = Path.Combine(outputDirectory, "MMHOOK_" + Path.GetFileName(assemblyPath));
             var hashPath = publicizedAssemblyPath + ".md5";
 
             removedReferences.Add(taskItem);
 
-            var publicizedReference = new TaskItem(publicizedAssemblyPath);
-            taskItem.CopyMetadataTo(publicizedReference);
-            publicizedReference.RemoveMetadata("ReferenceAssembly");
-            publicizedReferences.Add(publicizedReference);
+            // var publicizedReference = new TaskItem(publicizedAssemblyPath);
+            // taskItem.CopyMetadataTo(publicizedReference);
+            // publicizedReference.RemoveMetadata("ReferenceAssembly");
+            // publicizedReferences.Add(publicizedReference);
 
             if (File.Exists(hashPath) && File.ReadAllText(hashPath) == hash)
             {
@@ -113,7 +113,9 @@ public class PublicizeTask : Task
                 continue;
             }
 
-            AssemblyPublicizer.Publicize(assemblyPath, publicizedAssemblyPath, options);
+            HookGenRunner.RunHookGen(assemblyPath, publicizedAssemblyPath);
+            // AssemblyPublicizer.Publicize(assemblyPath, publicizedAssemblyPath, options);
+
 
             var originalDocumentationPath = Path.Combine(Path.GetDirectoryName(assemblyPath)!, fileName + ".xml");
             if (File.Exists(originalDocumentationPath))
@@ -165,7 +167,7 @@ public class PublicizeTask : Task
         using var md5 = MD5.Create();
 
         HashString(md5, typeof(AssemblyPublicizer).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion);
-        HashString(md5, typeof(PublicizeTask).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion);
+        HashString(md5, typeof(HookGenTask).Assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>().InformationalVersion);
 
         HashInt(md5, (int)options.Target);
         HashBool(md5, options.PublicizeCompilerGenerated);
