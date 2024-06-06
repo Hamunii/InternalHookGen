@@ -1,19 +1,17 @@
 using AsmResolver.DotNet;
 
-namespace InternalHookGen;
+namespace Hamunii.MonoMod.RuntimeDetour.HookGen;
 
 internal class NoopAssemblyResolver : IAssemblyResolver
 {
     internal static NoopAssemblyResolver Instance { get; } = new();
-    
+
     public AssemblyDefinition? Resolve(AssemblyDescriptor assembly)
     {
         return null;
     }
 
-    public void AddToCache(AssemblyDescriptor descriptor, AssemblyDefinition definition)
-    {
-    }
+    public void AddToCache(AssemblyDescriptor descriptor, AssemblyDefinition definition) { }
 
     public bool RemoveFromCache(AssemblyDescriptor descriptor)
     {
@@ -25,7 +23,5 @@ internal class NoopAssemblyResolver : IAssemblyResolver
         return false;
     }
 
-    public void ClearCache()
-    {
-    }
+    public void ClearCache() { }
 }

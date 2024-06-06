@@ -7,7 +7,7 @@ using MonoMod;
 using MonoMod.InlineRT;
 using MonoMod.RuntimeDetour.HookGen;
 
-namespace InternalHookGen;
+namespace Hamunii.MonoMod.RuntimeDetour.HookGen;
 
 public static class HookGenRunner
 {

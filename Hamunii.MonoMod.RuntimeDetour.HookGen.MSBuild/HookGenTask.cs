@@ -8,7 +8,7 @@ using System.Text;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 
-namespace InternalHookGen.MSBuild;
+namespace Hamunii.MonoMod.RuntimeDetour.HookGen.MSBuild;
 
 public class HookGenTask : Task
 {

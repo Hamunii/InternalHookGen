@@ -1,12 +1,9 @@
 ﻿using System.CommandLine.Builder;
 using System.CommandLine.Parsing;
-using InternalHookGen.Cli;
+using Hamunii.MonoMod.RuntimeDetour.HookGen.Cli;
 using Serilog;
 
-Log.Logger = new LoggerConfiguration()
-    .MinimumLevel.Information()
-    .WriteTo.Console()
-    .CreateLogger();
+Log.Logger = new LoggerConfiguration().MinimumLevel.Information().WriteTo.Console().CreateLogger();
 
 try
 {

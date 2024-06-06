@@ -21,7 +21,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.*"/>
-        <ProjectReference Include="..\InternalHookGen\InternalHookGen.csproj"/>
+        <ProjectReference Include="..\Hamunii.MonoMod.RuntimeDetour.HookGen\Hamunii.MonoMod.RuntimeDetour.HookGen.csproj"/>
         <PackageReference Include="MonoMod.RuntimeDetour" Version="22.07.31.01" />
         <PackageReference Include="MonoMod.RuntimeDetour.HookGen" Version="22.07.31.01" /> 
         <!-- <PackageReference Include="BepInEx.Core" Version="5.*" /> -->
@@ -37,7 +37,7 @@
     
     <Target Name="PackTaskDependencies" BeforeTargets="GenerateNuspec">
         <ItemGroup>
-            <DepFiles Include="bin\$(Configuration)\*\InternalHookGen.dll"/>
+            <DepFiles Include="bin\$(Configuration)\*\Hamunii.MonoMod.RuntimeDetour.HookGen.dll"/>
             <DepFiles Include="bin\$(Configuration)\*\AsmResolver*.dll"/>
             <DepFiles Include="bin\$(Configuration)\*\MonoMod.dll"/>
             <DepFiles Include="bin\$(Configuration)\*\MonoMod.Utils.dll"/>

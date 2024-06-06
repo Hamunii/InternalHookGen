@@ -1,6 +1,6 @@
 using System;
 
-namespace InternalHookGen;
+namespace Hamunii.MonoMod.RuntimeDetour.HookGen;
 
 public class AssemblyPublicizerOptions
 {

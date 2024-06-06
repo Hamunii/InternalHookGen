@@ -1,16 +1,16 @@
-# InternalHookGen.MSBuild
+# MonoMod.RuntimeDetour.HookGen.MSBuild
 
-[MonoMod](https://github.com/MonoMod/MonoMod)'s HookGen in MSBuild.  
+[MonoMod's](https://github.com/MonoMod/MonoMod) HookGen in MSBuild.  
 Forked from [BepInEx.AssemblyPublicizer](https://github.com/BepInEx/BepInEx.AssemblyPublicizer).
 
-## Usage
+**Note:** This project is not officially linked with MonoMod.
 
 ### Installation
 
 Add this NuGet package in your csproj:
 ```xml
 <ItemGroup>
-    <PackageReference Include="InternalHookGen.MSBuild" Version="1.*" PrivateAssets="all"/>
+    <PackageReference Include="Hamunii.MonoMod.RuntimeDetour.HookGen.MSBuild" Version="1.*" PrivateAssets="all"/>
 </ItemGroup>
 ```
 
@@ -37,7 +37,7 @@ static class Example
 {
     internal static void Init()
     {
-        // Subscribing to the hook event provided by HookGen
+        // Subscribing to hook events provided by HookGen
         On.SomeNamespace.SomeType.Method += MyHook;
         IL.SomeNamespace.SomeType.Method += MyILHook;
     }

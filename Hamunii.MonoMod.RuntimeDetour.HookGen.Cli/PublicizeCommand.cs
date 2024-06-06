@@ -3,7 +3,7 @@ using System.CommandLine.NamingConventionBinder;
 using System.Diagnostics;
 using Serilog;
 
-namespace InternalHookGen.Cli;
+namespace Hamunii.MonoMod.RuntimeDetour.HookGen.Cli;
 
 public sealed class PublicizeCommand : RootCommand
 {

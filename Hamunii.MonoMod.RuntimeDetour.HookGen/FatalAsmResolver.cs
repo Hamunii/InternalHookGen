@@ -9,14 +9,17 @@ using AsmResolver.IO;
 using AsmResolver.PE;
 using AsmResolver.PE.DotNet.Builder;
 
-namespace InternalHookGen;
+namespace Hamunii.MonoMod.RuntimeDetour.HookGen;
 
 internal static class FatalAsmResolver
 {
     /// Same as <see cref="AssemblyDefinition.FromFile(string)"/> but throws only on fatal errors
     public static AssemblyDefinition FromFile(string filePath)
     {
-        return AssemblyDefinition.FromImage(PEImage.FromFile(filePath), new ModuleReaderParameters(FatalThrowErrorListener.Instance));
+        return AssemblyDefinition.FromImage(
+            PEImage.FromFile(filePath),
+            new ModuleReaderParameters(FatalThrowErrorListener.Instance)
+        );
     }
 
     private sealed class FatalThrowErrorListener : IErrorListener
@@ -41,11 +44,16 @@ internal static class FatalAsmResolver
         var result = new ManagedPEImageBuilder().CreateImage(module);
         if (result.HasFailed)
         {
-            var errorListener = (FatalThrowErrorListener) result.ErrorListener;
-            throw new AggregateException("Construction of the PE image failed with one or more errors.", errorListener.Exceptions);
+            var errorListener = (FatalThrowErrorListener)result.ErrorListener;
+            throw new AggregateException(
+                "Construction of the PE image failed with one or more errors.",
+                errorListener.Exceptions
+            );
         }
 
         using var fileStream = File.Create(filePath);
-        new ManagedPEFileBuilder().CreateFile(result.ConstructedImage).Write(new BinaryStreamWriter(fileStream));
+        new ManagedPEFileBuilder()
+            .CreateFile(result.ConstructedImage)
+            .Write(new BinaryStreamWriter(fileStream));
     }
 }

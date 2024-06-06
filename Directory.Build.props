@@ -2,7 +2,7 @@
     <PropertyGroup>
         <Authors>Hamunii</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <RepositoryUrl>https://github.com/Hamunii/InternalHookGen</RepositoryUrl>
+        <RepositoryUrl>https://github.com/Hamunii/Hamunii.MonoMod.RuntimeDetour.HookGen</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
 
         <VersionPrefix>0.4.2</VersionPrefix>

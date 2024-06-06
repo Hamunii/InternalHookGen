@@ -1,10 +1,10 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternalHookGen", "InternalHookGen\InternalHookGen.csproj", "{20F6246E-5512-4B23-AFEB-009021FFDF35}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hamunii.MonoMod.RuntimeDetour.HookGen", "Hamunii.MonoMod.RuntimeDetour.HookGen\Hamunii.MonoMod.RuntimeDetour.HookGen.csproj", "{20F6246E-5512-4B23-AFEB-009021FFDF35}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternalHookGen.Cli", "InternalHookGen.Cli\InternalHookGen.Cli.csproj", "{84075B65-9F75-4B72-A1D9-CF5F9D597E4E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hamunii.MonoMod.RuntimeDetour.HookGen.Cli", "Hamunii.MonoMod.RuntimeDetour.HookGen.Cli\Hamunii.MonoMod.RuntimeDetour.HookGen.Cli.csproj", "{84075B65-9F75-4B72-A1D9-CF5F9D597E4E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InternalHookGen.MSBuild", "InternalHookGen.MSBuild\InternalHookGen.MSBuild.csproj", "{FDE0951E-8435-4514-B221-FF58BC3A0234}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hamunii.MonoMod.RuntimeDetour.HookGen.MSBuild", "Hamunii.MonoMod.RuntimeDetour.HookGen.MSBuild\Hamunii.MonoMod.RuntimeDetour.HookGen.MSBuild.csproj", "{FDE0951E-8435-4514-B221-FF58BC3A0234}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestProject", "TestProject\TestProject.csproj", "{12ACB697-3891-4CB8-A531-058434CF01ED}"
 EndProject

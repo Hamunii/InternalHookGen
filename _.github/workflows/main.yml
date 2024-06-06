@@ -24,9 +24,9 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: nuget packages
-          path: ./InternalHookGen*/bin/Release/*.nupkg
+          path: ./Hamunii.MonoMod.RuntimeDetour.HookGen*/bin/Release/*.nupkg
 
       - name: Push NuGet package
         if: github.ref_type == 'tag'
         run: |
-          dotnet nuget push ./InternalHookGen*/bin/Release/*.nupkg --source ${{ secrets.NUGET_SOURCE }} --api-key ${{ secrets.NUGET_KEY }}
+          dotnet nuget push ./Hamunii.MonoMod.RuntimeDetour.HookGen*/bin/Release/*.nupkg --source ${{ secrets.NUGET_SOURCE }} --api-key ${{ secrets.NUGET_KEY }}

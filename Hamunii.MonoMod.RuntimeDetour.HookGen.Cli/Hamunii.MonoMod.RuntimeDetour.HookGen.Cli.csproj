@@ -5,7 +5,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
 
-        <Description>CLI tool for InternalHookGen</Description>
+        <Description>CLI tool for Hamunii.MonoMod.RuntimeDetour.HookGen</Description>
 
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackAsTool>true</PackAsTool>
@@ -23,6 +23,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\InternalHookGen\InternalHookGen.csproj"/>
+        <ProjectReference Include="..\Hamunii.MonoMod.RuntimeDetour.HookGen\Hamunii.MonoMod.RuntimeDetour.HookGen.csproj"/>
     </ItemGroup>
 </Project>

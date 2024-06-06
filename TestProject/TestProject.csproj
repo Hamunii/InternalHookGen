@@ -1,5 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="..\InternalHookGen.MSBuild\InternalHookGen.MSBuild.props"/>
+    <Import Project="..\Hamunii.MonoMod.RuntimeDetour.HookGen.MSBuild\Hamunii.MonoMod.RuntimeDetour.HookGen.MSBuild.props"/>
     
     <PropertyGroup>
         <OutputType>Exe</OutputType>
@@ -9,11 +9,11 @@
     </PropertyGroup>
 
     <PropertyGroup>
-        <_InternalHookGen_TaskAssembly>$(MSBuildThisFileDirectory)\..\InternalHookGen.MSBuild\bin\$(Configuration)\netstandard2.1\InternalHookGen.MSBuild.dll</_InternalHookGen_TaskAssembly>
+        <_Hamunii_MonoMod_RuntimeDetour_HookGen_TaskAssembly>$(MSBuildThisFileDirectory)\..\Hamunii.MonoMod.RuntimeDetour.HookGen.MSBuild\bin\$(Configuration)\netstandard2.1\Hamunii.MonoMod.RuntimeDetour.HookGen.MSBuild.dll</_Hamunii_MonoMod_RuntimeDetour_HookGen_TaskAssembly>
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\InternalHookGen.MSBuild\InternalHookGen.MSBuild.csproj" ReferenceOutputAssembly="false"/>
+        <ProjectReference Include="..\Hamunii.MonoMod.RuntimeDetour.HookGen.MSBuild\Hamunii.MonoMod.RuntimeDetour.HookGen.MSBuild.csproj" ReferenceOutputAssembly="false"/>
     </ItemGroup>
 
     <ItemGroup>

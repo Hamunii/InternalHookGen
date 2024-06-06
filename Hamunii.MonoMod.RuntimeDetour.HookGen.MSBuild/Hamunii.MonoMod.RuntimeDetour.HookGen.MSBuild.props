@@ -1,14 +1,14 @@
 <Project>
     <PropertyGroup>
-        <_InternalHookGen_TaskFolder Condition="'$(MSBuildRuntimeType)' == 'Core'">netstandard2.1</_InternalHookGen_TaskFolder>
-        <_InternalHookGen_TaskFolder Condition="'$(MSBuildRuntimeType)' != 'Core'">net472</_InternalHookGen_TaskFolder>
-        <_InternalHookGen_TaskAssembly>$(MSBuildThisFileDirectory)..\lib\$(_InternalHookGen_TaskFolder)\$(MSBuildThisFileName).dll</_InternalHookGen_TaskAssembly>
+        <_Hamunii_MonoMod_RuntimeDetour_HookGen_TaskFolder Condition="'$(MSBuildRuntimeType)' == 'Core'">netstandard2.1</_Hamunii_MonoMod_RuntimeDetour_HookGen_TaskFolder>
+        <_Hamunii_MonoMod_RuntimeDetour_HookGen_TaskFolder Condition="'$(MSBuildRuntimeType)' != 'Core'">net472</_Hamunii_MonoMod_RuntimeDetour_HookGen_TaskFolder>
+        <_Hamunii_MonoMod_RuntimeDetour_HookGen_TaskAssembly>$(MSBuildThisFileDirectory)..\lib\$(_Hamunii_MonoMod_RuntimeDetour_HookGen_TaskFolder)\$(MSBuildThisFileName).dll</_Hamunii_MonoMod_RuntimeDetour_HookGen_TaskAssembly>
     </PropertyGroup>
 
-    <UsingTask TaskName="HookGenTask" AssemblyFile="$(_InternalHookGen_TaskAssembly)" />
+    <UsingTask TaskName="HookGenTask" AssemblyFile="$(_Hamunii_MonoMod_RuntimeDetour_HookGen_TaskAssembly)" />
 
     <Target Name="HookGen" AfterTargets="ResolveReferences;Publicize" BeforeTargets="FindReferenceAssembliesForReferences">
-        <Error Condition="'$(UsingMicrosoftNETSdk)' != 'true'" Text="InternalHookGen.MSBuild only works in SDK-style projects" />
+        <Error Condition="'$(UsingMicrosoftNETSdk)' != 'true'" Text="Hamunii.MonoMod.RuntimeDetour.HookGen.MSBuild only works in SDK-style projects" />
 
         <HookGenTask IntermediateOutputPath="$(IntermediateOutputPath)" ReferencePath="@(ReferencePath)" PackageReference="@(PackageReference)" HookGen="@(HookGen)">
             <!-- <Output TaskParameter="RemovedReferences" ItemName="_RemovedReferences" /> -->
