@@ -2,10 +2,10 @@
     <PropertyGroup>
         <Authors>Hamunii</Authors>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <RepositoryUrl>https://github.com/Hamunii/Hamunii.MonoMod.RuntimeDetour.HookGen</RepositoryUrl>
+        <RepositoryUrl>https://github.com/Hamunii/MonoMod.RuntimeDetour.HookGen.MSBuild</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
 
-        <VersionPrefix>0.4.2</VersionPrefix>
+        <VersionPrefix>0.1.0</VersionPrefix>
         <VersionSuffix>dev</VersionSuffix>
     </PropertyGroup>
 </Project>
