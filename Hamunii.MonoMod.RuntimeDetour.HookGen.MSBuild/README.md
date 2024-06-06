@@ -10,7 +10,7 @@ Forked from [BepInEx.AssemblyPublicizer](https://github.com/BepInEx/BepInEx.Asse
 Add this NuGet package in your csproj:
 ```xml
 <ItemGroup>
-    <PackageReference Include="Hamunii.MonoMod.RuntimeDetour.HookGen.MSBuild" Version="1.*" PrivateAssets="all"/>
+    <PackageReference Include="Hamunii.MonoMod.RuntimeDetour.HookGen.MSBuild" Version="0.*" PrivateAssets="all"/>
 </ItemGroup>
 ```
 
