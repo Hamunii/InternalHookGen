@@ -7,14 +7,10 @@
 
     <UsingTask TaskName="HookGenTask" AssemblyFile="$(_InternalHookGen_TaskAssembly)" />
 
-    <Target Name="HookGen" AfterTargets="ResolveReferences" BeforeTargets="FindReferenceAssembliesForReferences">
+    <Target Name="HookGen" AfterTargets="ResolveReferences;Publicize" BeforeTargets="FindReferenceAssembliesForReferences">
         <Error Condition="'$(UsingMicrosoftNETSdk)' != 'true'" Text="InternalHookGen.MSBuild only works in SDK-style projects" />
-        
-        <PropertyGroup>
-            <GeneratedIgnoresAccessChecksToFile Condition="'$(GeneratedIgnoresAccessChecksToFile)' == ''">$(IntermediateOutputPath)$(MSBuildProjectName).IgnoresAccessChecksTo.cs</GeneratedIgnoresAccessChecksToFile>
-        </PropertyGroup>
 
-        <HookGenTask IntermediateOutputPath="$(IntermediateOutputPath)" GeneratedIgnoresAccessChecksToFile="$(GeneratedIgnoresAccessChecksToFile)" ReferencePath="@(ReferencePath)" PackageReference="@(PackageReference)" HookGen="@(HookGen)">
+        <HookGenTask IntermediateOutputPath="$(IntermediateOutputPath)" ReferencePath="@(ReferencePath)" PackageReference="@(PackageReference)" HookGen="@(HookGen)">
             <!-- <Output TaskParameter="RemovedReferences" ItemName="_RemovedReferences" /> -->
             <Output TaskParameter="HookGeneratedReferences" ItemName="_HookGeneratedReferences" />
         </HookGenTask>
@@ -22,10 +18,7 @@
         <ItemGroup>
             <!-- <ReferencePath Remove="@(_RemovedReferences)" /> -->
             <ReferencePath Include="@(_HookGeneratedReferences)" />
-            <Exec Command="echo @(_HookGeneratedReferences->'&quot;%(Identity)&quot;', ' ')" />
-
-            <Compile Include="$(GeneratedIgnoresAccessChecksToFile)" />
-            <FileWrites Include="$(GeneratedIgnoresAccessChecksToFile)" />
+            <!-- <Exec Command="echo @(_HookGeneratedReferences->'&quot;%(Identity)&quot;', ' ')" /> -->
         </ItemGroup>
 
         <PropertyGroup>
@@ -41,11 +34,4 @@
             <Strip />
         </HookGen>
     </ItemDefinitionGroup>
-
-    <!-- Hide IgnoresAccessChecksToAttribute.cs (https://github.com/NuGet/Home/issues/4856#issuecomment-287957396) -->
-    <ItemGroup>
-        <Compile Update="@(Compile)">
-            <Visible Condition="'%(NuGetPackageId)' == 'InternalHookGen.MSBuild' and '%(NuGetItemType)' == 'Compile'">false</Visible>
-        </Compile>
-    </ItemGroup>
 </Project>

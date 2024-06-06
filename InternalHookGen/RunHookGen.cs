@@ -4,6 +4,7 @@ using System.Reflection;
 using System.Security.Cryptography;
 using Mono.Cecil;
 using MonoMod;
+using MonoMod.InlineRT;
 using MonoMod.RuntimeDetour.HookGen;
 
 namespace InternalHookGen;
@@ -163,12 +164,9 @@ public static class HookGenRunner
             }
             catch (Exception e)
             {
+                File.WriteAllText(pathOut, e.ToString());
                 try
                 {
-                    // For whatever reason, this can throw:
-                    // System.IndexOutOfRangeException: Index was outside the bounds of the array.
-                    //   at UnityInjector.ConsoleUtil.ConsoleEncoding.WriteCharBuffer (System.Char[] chars, System.Int32 index, System.Int32 count) [0x0000b] in <fe49c90fe8e24102b42489c11910c71c>:0
-                    // Maybe it's because of multithreading, maybe not. No other logging statement here has errored though.
                     Console.WriteLine($"[{nameof(RunHookGen)}] Error in HookGen for {pathIn}: {e}");
                 }
                 catch (Exception) { }

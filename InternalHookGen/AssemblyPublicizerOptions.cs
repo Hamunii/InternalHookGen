@@ -6,8 +6,6 @@ public class AssemblyPublicizerOptions
 {
     public HookGenTarget Target { get; set; } = HookGenTarget.All;
     public bool PublicizeCompilerGenerated { get; set; } = false;
-    public bool IncludeOriginalAttributesAttribute { get; set; } = true;
-
     public bool Strip { get; set; } = false;
 
     internal bool HasTarget(HookGenTarget target)

@@ -5,7 +5,8 @@
         <DebugType>embedded</DebugType>
         <PathMap>$([System.IO.Path]::GetFullPath('$(MSBuildThisFileDirectory)'))=./</PathMap>
 
-        <Description>MonoMod's HookGen in MSBuild</Description>
+        <Description>MonoMod's HookGen in MSBuild.</Description>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
 
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <DevelopmentDependency>true</DevelopmentDependency>
@@ -15,10 +16,14 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <None Include="./README.md" Pack="true" PackagePath="\"/>
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.*"/>
         <ProjectReference Include="..\InternalHookGen\InternalHookGen.csproj"/>
-        <PackageReference Include="MonoMod.RuntimeDetour" Version="22.*" />
-        <PackageReference Include="MonoMod.RuntimeDetour.HookGen" Version="22.*" /> 
+        <PackageReference Include="MonoMod.RuntimeDetour" Version="22.07.31.01" />
+        <PackageReference Include="MonoMod.RuntimeDetour.HookGen" Version="22.07.31.01" /> 
         <!-- <PackageReference Include="BepInEx.Core" Version="5.*" /> -->
         <PackageReference Include="Mono.Cecil" Version="0.11.4.0"/>
         <!-- <PackageReference Include="MonoMod" Version="22.*" /> -->
@@ -35,6 +40,7 @@
             <DepFiles Include="bin\$(Configuration)\*\InternalHookGen.dll"/>
             <DepFiles Include="bin\$(Configuration)\*\AsmResolver*.dll"/>
             <DepFiles Include="bin\$(Configuration)\*\MonoMod.dll"/>
+            <DepFiles Include="bin\$(Configuration)\*\MonoMod.Utils.dll"/>
             <DepFiles Include="bin\$(Configuration)\*\MonoMod.RuntimeDetour.dll"/>
             <DepFiles Include="bin\$(Configuration)\*\MonoMod.RuntimeDetour.HookGen.dll"/>
             <DepFiles Include="bin\$(Configuration)\*\Mono.Cecil.dll"/>

@@ -8,14 +8,12 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-
     <PropertyGroup>
         <_InternalHookGen_TaskAssembly>$(MSBuildThisFileDirectory)\..\InternalHookGen.MSBuild\bin\$(Configuration)\netstandard2.1\InternalHookGen.MSBuild.dll</_InternalHookGen_TaskAssembly>
     </PropertyGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\InternalHookGen.MSBuild\InternalHookGen.MSBuild.csproj" ReferenceOutputAssembly="false"/>
-        <Compile Include="..\InternalHookGen.MSBuild\IgnoresAccessChecksToAttribute.cs"/>
     </ItemGroup>
 
     <ItemGroup>
