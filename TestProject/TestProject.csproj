@@ -1,15 +1,16 @@
 <Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="..\InternalHookGen.MSBuild\InternalHookGen.MSBuild.props"/>
+    
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net6.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-    <Import Project="..\InternalHookGen.MSBuild\InternalHookGen.MSBuild.props"/>
 
     <PropertyGroup>
-        <_BepInExAssemblyPublicizer_TaskAssembly>$(MSBuildThisFileDirectory)\..\InternalHookGen.MSBuild\bin\$(Configuration)\netstandard2.1\InternalHookGen.MSBuild.dll</_BepInExAssemblyPublicizer_TaskAssembly>
+        <_InternalHookGen_TaskAssembly>$(MSBuildThisFileDirectory)\..\InternalHookGen.MSBuild\bin\$(Configuration)\netstandard2.1\InternalHookGen.MSBuild.dll</_InternalHookGen_TaskAssembly>
     </PropertyGroup>
 
     <ItemGroup>

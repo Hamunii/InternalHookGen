@@ -1,11 +1,11 @@
 <Project>
     <PropertyGroup>
-        <_BepInExAssemblyPublicizer_TaskFolder Condition="'$(MSBuildRuntimeType)' == 'Core'">netstandard2.1</_BepInExAssemblyPublicizer_TaskFolder>
-        <_BepInExAssemblyPublicizer_TaskFolder Condition="'$(MSBuildRuntimeType)' != 'Core'">net472</_BepInExAssemblyPublicizer_TaskFolder>
-        <_BepInExAssemblyPublicizer_TaskAssembly>$(MSBuildThisFileDirectory)..\lib\$(_BepInExAssemblyPublicizer_TaskFolder)\$(MSBuildThisFileName).dll</_BepInExAssemblyPublicizer_TaskAssembly>
+        <_InternalHookGen_TaskFolder Condition="'$(MSBuildRuntimeType)' == 'Core'">netstandard2.1</_InternalHookGen_TaskFolder>
+        <_InternalHookGen_TaskFolder Condition="'$(MSBuildRuntimeType)' != 'Core'">net472</_InternalHookGen_TaskFolder>
+        <_InternalHookGen_TaskAssembly>$(MSBuildThisFileDirectory)..\lib\$(_InternalHookGen_TaskFolder)\$(MSBuildThisFileName).dll</_InternalHookGen_TaskAssembly>
     </PropertyGroup>
 
-    <UsingTask TaskName="HookGenTask" AssemblyFile="$(_BepInExAssemblyPublicizer_TaskAssembly)" />
+    <UsingTask TaskName="HookGenTask" AssemblyFile="$(_InternalHookGen_TaskAssembly)" />
 
     <Target Name="HookGen" AfterTargets="ResolveReferences" BeforeTargets="FindReferenceAssembliesForReferences">
         <Error Condition="'$(UsingMicrosoftNETSdk)' != 'true'" Text="InternalHookGen.MSBuild only works in SDK-style projects" />
@@ -15,13 +15,14 @@
         </PropertyGroup>
 
         <HookGenTask IntermediateOutputPath="$(IntermediateOutputPath)" GeneratedIgnoresAccessChecksToFile="$(GeneratedIgnoresAccessChecksToFile)" ReferencePath="@(ReferencePath)" PackageReference="@(PackageReference)" HookGen="@(HookGen)">
-            <Output TaskParameter="RemovedReferences" ItemName="_RemovedReferences" />
-            <Output TaskParameter="PublicizedReferences" ItemName="_PublicizedReferences" />
+            <!-- <Output TaskParameter="RemovedReferences" ItemName="_RemovedReferences" /> -->
+            <Output TaskParameter="HookGeneratedReferences" ItemName="_HookGeneratedReferences" />
         </HookGenTask>
 
         <ItemGroup>
-            <ReferencePath Remove="@(_RemovedReferences)" />
-            <ReferencePath Include="@(_PublicizedReferences)" />
+            <!-- <ReferencePath Remove="@(_RemovedReferences)" /> -->
+            <ReferencePath Include="@(_HookGeneratedReferences)" />
+            <Exec Command="echo @(_HookGeneratedReferences->'&quot;%(Identity)&quot;', ' ')" />
 
             <Compile Include="$(GeneratedIgnoresAccessChecksToFile)" />
             <FileWrites Include="$(GeneratedIgnoresAccessChecksToFile)" />

@@ -17,22 +17,31 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.Build.Utilities.Core" Version="16.*"/>
         <ProjectReference Include="..\InternalHookGen\InternalHookGen.csproj"/>
-        <PackageReference Include="MonoMod.RuntimeDetour.HookGen" Version="22.*" />
+        <PackageReference Include="MonoMod.RuntimeDetour" Version="22.*" />
+        <PackageReference Include="MonoMod.RuntimeDetour.HookGen" Version="22.*" /> 
+        <!-- <PackageReference Include="BepInEx.Core" Version="5.*" /> -->
+        <PackageReference Include="Mono.Cecil" Version="0.11.4.0"/>
+        <!-- <PackageReference Include="MonoMod" Version="22.*" /> -->
 
         <PackageReference Include="PolySharp" Version="1.13.1" PrivateAssets="all"/>
     </ItemGroup>
 
     <ItemGroup>
         <Content Include="$(MSBuildProjectName).props" Pack="true" PackagePath="build"/>
-
-        <Compile Remove="IgnoresAccessChecksToAttribute.cs"/>
-        <Content Include="IgnoresAccessChecksToAttribute.cs" Pack="true" PackagePath="contentFiles/cs/any" BuildAction="Compile"/>
     </ItemGroup>
     
     <Target Name="PackTaskDependencies" BeforeTargets="GenerateNuspec">
         <ItemGroup>
-            <_PackageFiles Include="bin\$(Configuration)\*\InternalHookGen.dll;bin\$(Configuration)\*\AsmResolver*.dll">
-                <PackagePath>lib%(RecursiveDir)</PackagePath>
+            <DepFiles Include="bin\$(Configuration)\*\InternalHookGen.dll"/>
+            <DepFiles Include="bin\$(Configuration)\*\AsmResolver*.dll"/>
+            <DepFiles Include="bin\$(Configuration)\*\MonoMod.dll"/>
+            <DepFiles Include="bin\$(Configuration)\*\MonoMod.RuntimeDetour.dll"/>
+            <DepFiles Include="bin\$(Configuration)\*\MonoMod.RuntimeDetour.HookGen.dll"/>
+            <DepFiles Include="bin\$(Configuration)\*\Mono.Cecil.dll"/>
+        </ItemGroup>
+        <ItemGroup>
+            <_PackageFiles Include="@(DepFiles)">
+                <PackagePath>lib/%(RecursiveDir)../</PackagePath>
                 <Visible>false</Visible>
                 <BuildAction>Content</BuildAction>
             </_PackageFiles>

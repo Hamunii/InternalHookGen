@@ -14,11 +14,11 @@ internal class InternalClass
 
 public class SecondClass
 {
-    private int _field;
+    private static int _field;
 
     private int Property { get; set; }
 
-    private int Method()
+    public static int Method()
     {
         _field = 69;
         Console.WriteLine(_field);
